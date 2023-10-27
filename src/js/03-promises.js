@@ -19,6 +19,7 @@ let step = Number(evt.currentTarget.elements.step.value);
     }) 
     delay += step;
   }
+  // evt.currentTarget.reset();
 }
 
 function createPromise(position, delay) {

@@ -9,19 +9,22 @@ document.addEventListener("click", changeкBackground);
 let timerId = null;
 
 function changeкBackground(evt) {
-    if (evt.target === selectors.startButton) {
-        evt.target.disabled = true;
-        selectors.stopButton.disabled = false;
+  if (evt.target === selectors.startButton) {
+    updateAttribute(true, false);
         timerId = setInterval(() => {
           selectors.body.style.backgroundColor = getRandomHexColor();  
         },1000);
     }
-    if (evt.target === selectors.stopButton) {
-        evt.target.disabled = true;
-        selectors.startButton.disabled = false;
+  if (evt.target === selectors.stopButton) {
+      updateAttribute(false,true);
         clearTimeout(timerId);
     }
 };
+
+function updateAttribute(a, b) {
+  selectors.startButton.disabled = a;
+  selectors.stopButton.disabled = b;
+}
 
 
 function getRandomHexColor() {
