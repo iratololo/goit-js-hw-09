@@ -14,22 +14,18 @@ const selectors = {
 
 selectors.timerButton.disabled = true;
 selectors.container.style.backgroundColor = '#ffd54f';
-selectors.timerButton.addEventListener("click", handlerTimer);
 
 const timerInterval = 1000;
 
 let result = 0;
-
 const options = {
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
-    onClose(selectedDates) {
-        const selectedDate = selectedDates[0].getTime();
-        const defaultDate = options.defaultDate.getTime();
-        result = selectedDate - defaultDate;
-        if (selectedDate < defaultDate) {
+    onClose([selectedDate]) {
+        if (selectedDate.getTime() < Date.now()) {
+            selectors.timerButton.disabled = true;
         Report.failure(
             'Invalid date',
             'Please choose a date in the future',
@@ -37,6 +33,8 @@ const options = {
             );
         } else {
             selectors.timerButton.disabled = false;
+            selectors.timerButton.addEventListener("click", handlerTimer);
+            result = selectedDate.getTime() - Date.now();
         }
     },
 };
@@ -61,10 +59,6 @@ function handlerTimer() {
             'Please choose new date',
             'Okay',
            );
-           selectors.days.textContent = addLeadingZero(0);
-            selectors.hours.textContent = addLeadingZero(0);
-            selectors.minutes.textContent = addLeadingZero(0);
-            selectors.seconds.textContent = addLeadingZero(0);
         }
    }, timerInterval)
 }
@@ -94,21 +88,3 @@ function convertMs(ms) {
 }
 
     
-
-
-
-// setInterval(() => {
-//     const today = new Date();
-//     const tomorrow = new Date("December 16, 2023");
-//     const timeDefoult = today.getTime();
-//     const tomorrowDefoult = tomorrow.getTime();
-//     const result = tomorrowDefoult - timeDefoult;
-//     const timeData = convertMs(result);
-//     console.log('timeData',timeData);
-//     const { days, hours, minutes, seconds } = timeData;
-
-//     selectors.days.textContent = addLeadingZero(days);
-//     selectors.hours.textContent = addLeadingZero(hours);
-//     selectors.minutes.textContent = addLeadingZero(minutes);
-//     selectors.seconds.textContent = addLeadingZero(seconds);
-// },1000)
